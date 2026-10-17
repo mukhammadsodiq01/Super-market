@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Buyurtma qabul qilindi | Verdant Market{% endblock %}
+
+{% block content %}
+<div class="bg-slate-50/50 py-12">
+    <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+        
+        <!-- Muvaffaqiyat xabari kartasi -->
+        <div class="rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-10 shadow-sm text-center">
+            
+            <!-- Yashil galochka belgisi -->
+            <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+                <svg class="h-10 w-10 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+
+            <h1 class="mt-6 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
+                Rahmat! Buyurtmangiz qabul qilindi
+            </h1>
+            <p class="mt-2 text-sm text-slate-500 max-w-md mx-auto">
+                Buyurtma raqamingiz <strong class="text-slate-900 font-bold">#{{ order.id|default:"VM-84920" }}</strong>. Tasdiqlash xabarnomasi va kvitansiya telefon raqamingizga yuborildi.
+            </p>
+
+            <!-- Asosiy parametrlar bloki -->
+            <div class="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4 rounded-2xl bg-slate-50 p-4 text-left border border-slate-100">
+                <div>
+                    <span class="block text-[11px] font-semibold text-slate-400 uppercase">Buyurtma sanasi</span>
+                    <span class="text-xs font-bold text-slate-900">{{ order.created_at|date:"d.m.Y, H:i"|default:"Bugun, 16:45" }}</span>
+                </div>
+                <div>
+                    <span class="block text-[11px] font-semibold text-slate-400 uppercase">To‘lov turi</span>
+                    <span class="text-xs font-bold text-slate-900 capitalize">{{ order.payment_method|default:"Karta orqali" }}</span>
+                </div>
+                <div>
+                    <span class="block text-[11px] font-semibold text-slate-400 uppercase">Holati</span>
+                    <span class="inline-flex items-center text-xs font-bold text-emerald-700">
+                        Tayyorlanmoqda
+                    </span>
+                </div>
+                <div>
+                    <span class="block text-[11px] font-semibold text-slate-400 uppercase">Taxminiy yetkazish</span>
+                    <span class="text-xs font-bold text-slate-900">18:00 – 20:00</span>
+                </div>
+            </div>
+
+            <!-- Xarid qilingan tovarlar ro'yxati -->
+            <div class="mt-8 text-left border-t border-slate-100 pt-6">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-slate-900 mb-4">Mahsulotlar tarkibi</h2>
+                <div class="divide-y divide-slate-100">
+                    {% for item in order.items.all %}
+                        <div class="flex items-center justify-between py-3">
+                            <div class="flex items-center gap-3">
+                                <img src="{{ item.product.image.url|default:'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=100&q=80' }}" alt="{{ item.product.name }}" class="h-12 w-12 rounded-xl object-cover border border-slate-100">
+                                <div>
+                                    <h3 class="text-xs font-bold text-slate-900">{{ item.product.name }}</h3>
+                                    <span class="text-[11px] text-slate-500">{{ item.quantity }} dona × ${{ item.price }}</span>
+                                </div>
+                            </div>
+                            <span class="text-xs font-bold text-slate-900">${{ item.total_price }}</span>
+                        </div>
+                    {% empty %}
+                        <div class="flex items-center justify-between py-3">
+                            <div class="flex items-center gap-3">
+                                <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=100&q=80" alt="Yangi hosil" class="h-12 w-12 rounded-xl object-cover border border-slate-100">
+                                <div>
+                                    <h3 class="text-xs font-bold text-slate-900">Organik Ismaloq va Ko‘katlar To‘plami</h3>
+                                    <span class="text-[11px] text-slate-500">2 dona × $6.00</span>
+                                </div>
+                            </div>
+                            <span class="text-xs font-bold text-slate-900">$12.00</span>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Moliyaviy yakun -->
+                <div class="mt-4 border-t border-slate-100 pt-4 space-y-2 text-xs text-slate-600">
+                    <div class="flex justify-between">
+                        <span>Oraliq summa:</span>
+                        <span class="font-bold text-slate-900">${{ order.subtotal|default:"12.00" }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Yetkazib berish xizmati:</span>
+                        <span class="font-semibold text-emerald-700">Tekin</span>
+                    </div>
+                    <div class="flex justify-between border-t border-slate-100 pt-2 text-sm font-extrabold text-slate-900">
+                        <span>Jami to‘langan:</span>
+                        <span class="text-base text-emerald-800">${{ order.total_amount|default:"12.00" }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manzil va yetkazish tafsiloti -->
+            <div class="mt-6 rounded-2xl bg-emerald-50/50 border border-emerald-100 p-4 text-left">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-emerald-900">Yetkazish manzili</h3>
+                <p class="mt-1 text-xs text-emerald-950 font-medium leading-relaxed">
+                    {{ order.address|default:"Toshkent shahar, Chilonzor tumani, Amir Temur ko'chasi, 15-uy" }}
+                </p>
+                {% if order.delivery_notes %}
+                    <p class="mt-1 text-[11px] text-emerald-700 italic">Izoh: {{ order.delivery_notes }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Tugmalar bloki -->
+            <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+                <a 
+                    href="{% url 'home' %}" 
+                    class="w-full sm:w-auto inline-flex items-center justify-center rounded-xl bg-emerald-700 px-6 py-3 text-xs font-bold text-white shadow-md shadow-emerald-800/15 hover:bg-emerald-800 transition"
+                >
+                    Asosiy sahifaga qaytish
+                </a>
+                <button 
+                    type="button" 
+                    onclick="window.print()" 
+                    class="w-full sm:w-auto inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-6 py-3 text-xs font-bold text-slate-700 hover:bg-slate-50 transition"
+                >
+                    <svg class="h-4 w-4 mr-1.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                    </svg>
+                    Chekni chop etish
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}

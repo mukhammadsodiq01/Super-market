@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sevimlilar ro‘yxati | Verdant Market{% endblock %}
+
+{% block content %}
+<div class="bg-slate-50/50 py-10 min-h-[70vh]">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+        <!-- Sahifa sarlavhasi -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-slate-200 pb-5 mb-8 gap-4">
+            <div>
+                <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">Sevimlilar ro‘yxati</h1>
+                <p class="mt-1 text-sm text-slate-500">
+                    Siz saqlab qo‘ygan barcha yangi va organik mahsulotlar
+                </p>
+            </div>
+            <a href="{% url 'product_list' %}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-700 hover:text-emerald-800 transition">
+                <span>←</span> Barcha mahsulotlarni ko‘rish
+            </a>
+        </div>
+
+        {% if wishlist_items %}
+            <!-- Mahsulotlar tarmog'i -->
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="wishlist-grid">
+                {% for item in wishlist_items %}
+                    <div class="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm transition hover:border-emerald-300 hover:shadow-lg" id="wishlist-card-{{ item.product.id }}">
+                        
+                        <!-- O'chirish (Remove) tugmasi -->
+                        <button 
+                            type="button" 
+                            data-product-id="{{ item.product.id }}"
+                            class="wishlist-remove-btn absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-rose-500 shadow-sm backdrop-blur-sm transition hover:bg-rose-50 hover:scale-110" 
+                            title="Sevimlilardan o‘chirish"
+                        >
+                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+
+                        <!-- Mahsulot rasmi -->
+                        <a href="{% url 'product_detail' item.product.slug %}" class="relative aspect-square w-full overflow-hidden bg-slate-100">
+                            <img 
+                                src="{{ item.product.image.url|default:'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80' }}" 
+                                alt="{{ item.product.name }}" 
+                                class="h-full w-full object-cover object-center transition duration-500 group-hover:scale-105"
+                            >
+                            {% if item.product.badge %}
+                                <span class="absolute left-3 top-3 rounded-md bg-emerald-800 px-2 py-0.5 text-[10px] font-bold text-white uppercase tracking-wider">
+                                    {{ item.product.badge }}
+                                </span>
+                            {% endif %}
+                        </a>
+
+                        <!-- Mahsulot ma'lumotlari -->
+                        <div class="flex flex-1 flex-col p-4">
+                            <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                                {{ item.product.category.name|default:"Organik" }}
+                            </span>
+
+                            <h2 class="mt-1 text-sm font-bold text-slate-900 group-hover:text-emerald-700 transition">
+                                <a href="{% url 'product_detail' item.product.slug %}">
+                                    {{ item.product.name }}
+                                </a>
+                            </h2>
+
+                            <div class="mt-auto pt-4 flex items-center justify-between">
+                                <div>
+                                    <span class="text-base font-extrabold text-slate-900">${{ item.product.price }}</span>
+                                    {% if item.product.unit %}
+                                        <span class="text-[11px] text-slate-400">/ {{ item.product.unit }}</span>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Savatga o'tkazish tugmasi -->
+                                <button 
+                                    type="button" 
+                                    data-product-id="{{ item.product.id }}"
+                                    class="add-to-cart-btn flex items-center gap-1.5 rounded-xl bg-emerald-50 px-3 py-2 text-xs font-bold text-emerald-800 transition hover:bg-emerald-700 hover:text-white"
+                                    title="Savatga qo‘shish"
+                                >
+                                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                                    </svg>
+                                    <span>Savatga</span>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <!-- Sevimlilar bo'sh holati (Empty State) -->
+            <div class="mx-auto max-w-lg rounded-3xl border border-dashed border-slate-200 bg-white p-12 text-center shadow-sm">
+                <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-rose-50 text-rose-500">
+                    <svg class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                </div>
+                <h2 class="mt-5 text-xl font-bold text-slate-900">Sevimlilar ro‘yxati bo‘sh</h2>
+                <p class="mt-2 text-sm text-slate-500">
+                    O‘zingizga ma’qul kelgan mahsulotlarni keyinroq xarid qilish uchun yurakcha belgisini bosing.
+                </p>
+                <div class="mt-8">
+                    <a 
+                        href="{% url 'product_list' %}" 
+                        class="inline-flex items-center gap-2 rounded-xl bg-emerald-700 px-6 py-3 text-sm font-bold text-white shadow-md shadow-emerald-800/15 transition hover:bg-emerald-800"
+                    >
+                        Katalogni ko‘rish
+                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Sevimlilar ro'yxatidan o'chirish
+        document.querySelectorAll('.wishlist-remove-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const productId = btn.dataset.productId;
+                if (!productId) return;
+
+                try {
+                    const response = await fetch('/wishlist/toggle/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': getCsrfToken()
+                        },
+                        body: JSON.stringify({ product_id: productId })
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        
+                        // Kartani sahifadan o'chirish
+                        const card = document.getElementById(`wishlist-card-${productId}`);
+                        if (card) {
+                            card.remove();
+                        }
+
+                        // Headerdagi nishonni yangilash
+                        const badge = document.getElementById('wishlist-badge');
+                        if (badge && data.total_items !== undefined) {
+                            badge.textContent = data.total_items;
+                        }
+
+                        // Agar hamma mahsulot o'chib ketsa sahifani yangilash (Empty state ko'rsatish)
+                        const remaining = document.querySelectorAll('#wishlist-grid > div');
+                        if (remaining.length === 0) {
+                            window.location.reload();
+                        }
+
+                        showToast('Mahsulot sevimlilardan olib tashlandi.');
+                    } else {
+                        showToast('Xatolik yuz berdi.', 'error');
+                    }
+                } catch (err) {
+                    showToast('Server bilan aloqa uzildi.', 'error');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

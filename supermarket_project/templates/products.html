@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Mahsulotlar katalogi | Verdant Market{% endblock %}
+
+{% block content %}
+<div class="bg-slate-50/50 py-10 min-h-screen">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+        <!-- Sarlavha va Qidiruv -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-slate-200 pb-6 mb-8">
+            <div>
+                <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">Mahsulotlar katalogi</h1>
+                <p class="mt-1 text-sm text-slate-500">
+                    Fermer xo‘jaliklaridan yangi uzilgan tabiiy mahsulotlar
+                </p>
+            </div>
+
+            <!-- Qidiruv formasi -->
+            <form action="{% url 'product_list' %}" method="GET" class="flex gap-2 w-full md:w-80">
+                {% if selected_category %}
+                    <input type="hidden" name="category" value="{{ selected_category }}">
+                {% endif %}
+                <input 
+                    type="search" 
+                    name="q" 
+                    value="{{ request.GET.q|default:'' }}"
+                    placeholder="Mahsulot qidirish..." 
+                    class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-900 focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600"
+                >
+                <button type="submit" class="rounded-xl bg-emerald-700 px-4 py-2 text-sm font-bold text-white hover:bg-emerald-800 transition">
+                    Qidirish
+                </button>
+            </form>
+        </div>
+
+        <!-- Kategoriyalar tugmalari (Filtrlar) -->
+        <div class="mb-8 flex flex-wrap gap-2.5">
+            <!-- Barcha tovarlar tugmasi -->
+            <a 
+                href="{% url 'product_list' %}" 
+                class="rounded-xl px-4 py-2 text-xs font-bold transition {% if not selected_category %}bg-emerald-700 text-white shadow-sm{% else %}bg-white border border-slate-200 text-slate-700 hover:bg-slate-50{% endif %}"
+            >
+                Barchasi
+            </a>
+
+            <!-- Har bir toifa tugmasi -->
+            {% for cat in categories %}
+                <a 
+                    href="{% url 'product_list' %}?category={{ cat.slug }}" 
+                    class="rounded-xl px-4 py-2 text-xs font-bold transition {% if selected_category == cat.slug %}bg-emerald-700 text-white shadow-sm{% else %}bg-white border border-slate-200 text-slate-700 hover:bg-slate-50{% endif %}"
+                >
+                    {{ cat.name }} {% if cat.item_count %}({{ cat.item_count }}){% endif %}
+                </a>
+            {% endfor %}
+        </div>
+
+        <!-- Mahsulotlar to'plami (Grid) -->
+        {% if products %}
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {% for product in products %}
+                    <div class="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm transition hover:border-emerald-300 hover:shadow-lg">
+                        
+                        <!-- Sevimlilar (Wishlist) tugmasi -->
+                        <button 
+                            type="button" 
+                            data-product-id="{{ product.id }}"
+                            class="wishlist-btn absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-slate-400 shadow-sm backdrop-blur-sm transition hover:text-rose-500 hover:scale-110" 
+                            aria-label="Sevimlilarga qo'shish"
+                        >
+                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            </svg>
+                        </button>
+
+                        <!-- Mahsulot rasmi -->
+                        <a href="{% url 'product_detail' product.slug %}" class="relative aspect-square w-full overflow-hidden bg-slate-100">
+                            {% if product.image %}
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="h-full w-full object-cover transition duration-300 group-hover:scale-105">
+                            {% else %}
+                                <div class="flex h-full w-full items-center justify-center bg-slate-100 text-slate-400 text-xs">
+                                    Rasm mavjud emas
+                                </div>
+                            {% endif %}
+
+                            {% if product.badge %}
+                                <span class="absolute left-3 top-3 rounded-md bg-emerald-800 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
+                                    {{ product.badge }}
+                                </span>
+                            {% endif %}
+                        </a>
+
+                        <!-- Mahsulot ma'lumotlari -->
+                        <div class="flex flex-1 flex-col p-4">
+                            <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                                {{ product.category.name }}
+                            </span>
+
+                            <h2 class="mt-1 text-sm font-bold text-slate-900 group-hover:text-emerald-700 transition">
+                                <a href="{% url 'product_detail' product.slug %}">
+                                    {{ product.name }}
+                                </a>
+                            </h2>
+
+                            {% if product.short_description %}
+                                <p class="mt-1 text-xs text-slate-500 line-clamp-2">
+                                    {{ product.short_description }}
+                                </p>
+                            {% endif %}
+
+                            <div class="mt-auto pt-4 flex items-center justify-between border-t border-slate-50">
+                                <div>
+                                    <span class="text-base font-extrabold text-slate-900">${{ product.price }}</span>
+                                    {% if product.unit %}
+                                        <span class="text-[11px] text-slate-400">/ {{ product.unit }}</span>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Savatga qo'shish -->
+                                <button 
+                                    type="button" 
+                                    data-product-id="{{ product.id }}"
+                                    class="add-to-cart-btn flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50 text-emerald-800 transition hover:bg-emerald-700 hover:text-white"
+                                    title="Savatga qo‘shish"
+                                >
+                                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Paginator (Sahifalash tugmalari) -->
+            {% if page_obj.has_other_pages %}
+                <div class="my-12 flex items-center justify-center gap-2">
+                    
+                    {% if page_obj.has_previous %}
+                        <a 
+                            href="?page={{ page_obj.previous_page_number }}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"
+                            class="flex h-10 items-center justify-center rounded-xl border border-slate-200 bg-white px-4 text-xs font-bold text-slate-700 shadow-sm transition hover:bg-slate-50 hover:border-emerald-500"
+                        >
+                            ← Oldingi
+                        </a>
+                    {% endif %}
+
+                    <div class="flex items-center gap-1.5">
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                                <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-700 text-xs font-extrabold text-white shadow-sm">
+                                    {{ num }}
+                                </span>
+                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                <a 
+                                    href="?page={{ num }}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"
+                                    class="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-xs font-bold text-slate-700 shadow-sm transition hover:bg-slate-50 hover:border-emerald-400"
+                                >
+                                    {{ num }}
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                    {% if page_obj.has_next %}
+                        <a 
+                            href="?page={{ page_obj.next_page_number }}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"
+                            class="flex h-10 items-center justify-center rounded-xl border border-slate-200 bg-white px-4 text-xs font-bold text-slate-700 shadow-sm transition hover:bg-slate-50 hover:border-emerald-500"
+                        >
+                            Keyingi →
+                        </a>
+                    {% endif %}
+
+                </div>
+            {% endif %}
+
+        {% else %}
+            <!-- Agar bu toifada mahsulot bo'lmasa -->
+            <div class="mx-auto max-w-md rounded-2xl border border-dashed border-slate-200 bg-white p-10 text-center shadow-sm">
+                <svg class="mx-auto h-12 w-12 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                </svg>
+                <h3 class="mt-4 text-base font-bold text-slate-900">Ushbu bo‘limda mahsulot topilmadi</h3>
+                <p class="mt-1 text-xs text-slate-500">Boshqa bo‘limni tanlang yoki qidiruv so‘zini o‘zgartiring.</p>
+                <a href="{% url 'product_list' %}" class="mt-5 inline-flex items-center rounded-xl bg-emerald-700 px-4 py-2 text-xs font-bold text-white hover:bg-emerald-800">
+                    Barcha mahsulotlar
+                </a>
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}

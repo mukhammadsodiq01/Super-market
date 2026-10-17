@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Biz haqimizda | Verdant Market{% endblock %}
+
+{% block content %}
+<div class="bg-white">
+
+    <!-- 1. Qahramon (Hero) bo'limi -->
+    <section class="relative overflow-hidden bg-emerald-950 py-20 text-white">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <span class="inline-block rounded-full bg-emerald-800/80 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-emerald-200">
+                Bizning Missiyamiz
+            </span>
+            <h1 class="mt-4 text-3xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl max-w-3xl mx-auto">
+                Dasturxoningizga faqat toza va tirik tabiat in’omini yetkazamiz
+            </h1>
+            <p class="mt-5 max-w-2xl mx-auto text-sm sm:text-base text-emerald-100 leading-relaxed">
+                Verdant Market — bu shunchaki onlayn do‘kon emas. Biz an’anaviy vositachilarni chetlab o‘tib, mahalliy sertifikatlangan kichik fermerlar bilan sog‘lom ovqatlanish tarafdorlarini bog‘lovchi ekotizimmiz.
+            </p>
+        </div>
+        <!-- Fon bezaklari -->
+        <div class="pointer-events-none absolute -bottom-16 -right-16 h-80 w-80 rounded-full bg-emerald-800/30 blur-3xl"></div>
+        <div class="pointer-events-none absolute -top-16 -left-16 h-80 w-80 rounded-full bg-emerald-800/30 blur-3xl"></div>
+    </section>
+
+    <!-- 2. Hikoyamiz va Falsafamiz -->
+    <section class="py-16 sm:py-24">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 gap-12 lg:grid-cols-12 items-center">
+                
+                <div class="lg:col-span-6 space-y-5">
+                    <span class="text-xs font-bold uppercase tracking-wider text-emerald-700">Falsafamiz</span>
+                    <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+                        Nima uchun supermarket javonidagi mahsulotlar emas?
+                    </h2>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Oddiy do‘konlardagi ko‘plab meva va sabzavotlar uzoq saqlanishi uchun kimyoviy ishlov beriladi, oylardir omborlarda turadi va o‘zining haqiqiy ta’mini yo‘qotadi. 
+                    </p>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Biz esa tonggi 05:00 da uzilgan yangi hosilni sovutilgan holda o‘sha kunning o‘zidayoq sizning oshxonangizga yetkazib beramiz. Hech qanday sintetik mumlar, sun’iy tezlatgichlar va konservantlarsiz.
+                    </p>
+                    
+                    <div class="pt-4 grid grid-cols-2 gap-4">
+                        <div class="border-l-2 border-emerald-700 pl-4">
+                            <span class="text-2xl font-black text-slate-900">100%</span>
+                            <p class="text-xs text-slate-500 mt-1">Kimyoviy o‘g‘itsiz yetishtirilgan</p>
+                        </div>
+                        <div class="border-l-2 border-emerald-700 pl-4">
+                            <span class="text-2xl font-black text-slate-900">&lt; 24 soat</span>
+                            <p class="text-xs text-slate-500 mt-1">Dala dalasidan xonadoningizgacha</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-6 relative">
+                    <div class="aspect-[4/3] overflow-hidden rounded-3xl bg-slate-100 shadow-xl">
+                        <img 
+                            src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1000&q=80" 
+                            alt="Yashil hosil dalalari" 
+                            class="h-full w-full object-cover"
+                        >
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Ishlash tamoyilimiz (Qadamlar) -->
+    <section class="bg-slate-50/70 py-16 border-y border-slate-200/60">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-xl mx-auto">
+                <h2 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">Biz qanday ishlaymiz?</h2>
+                <p class="mt-2 text-xs text-slate-500">Dala tuprog‘idan dasturxongacha bo‘lgan toza yo‘l</p>
+            </div>
+
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- 1-qadam -->
+                <div class="rounded-2xl bg-white p-6 border border-slate-200/80 shadow-sm">
+                    <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800 font-bold text-lg mb-4">
+                        01
+                    </div>
+                    <h3 class="text-base font-bold text-slate-900">Tonggi ehtiyotkor hosil</h3>
+                    <p class="mt-2 text-xs text-slate-500 leading-relaxed">
+                        Fermerlarimiz har tong faqat to‘liq pishib yetilgan, eng sifatli meva va sabzavotlarni saralab uzadilar.
+                    </p>
+                </div>
+
+                <!-- 2-qadam -->
+                <div class="rounded-2xl bg-white p-6 border border-slate-200/80 shadow-sm">
+                    <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800 font-bold text-lg mb-4">
+                        02
+                    </div>
+                    <h3 class="text-base font-bold text-slate-900">Eko-laboratoriya nazorati</h3>
+                    <p class="mt-2 text-xs text-slate-500 leading-relaxed">
+                        Mahsulotlar omborga kelishi bilanoq nitrat, pestitsid va tozalik standartlari bo‘yicha tekshiruvdan o‘tadi.
+                    </p>
+                </div>
+
+                <!-- 3-qadam -->
+                <div class="rounded-2xl bg-white p-6 border border-slate-200/80 shadow-sm">
+                    <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800 font-bold text-lg mb-4">
+                        03
+                    </div>
+                    <h3 class="text-base font-bold text-slate-900">Sovutilgan yetkazish</h3>
+                    <p class="mt-2 text-xs text-slate-500 leading-relaxed">
+                        Maxsus 4°C haroratli sovutgichli avtomobillarda buyurtma aynan va’da qilingan soatlarda eshigingizga yetadi.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Fermerlarimiz bilan tanishing -->
+    <section class="py-16">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-xl mx-auto">
+                <span class="text-xs font-bold uppercase tracking-wider text-emerald-700">Hamkorlarimiz</span>
+                <h2 class="mt-1 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">Bizning saxovatli fermerlarimiz</h2>
+                <p class="mt-2 text-xs text-slate-500">Mahsulotlaringiz kimning mehnati bilan yetishtirilishini bilishingiz muhim</p>
+            </div>
+
+            <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 1-fermer -->
+                <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm text-center">
+                    <div class="aspect-[4/3] w-full overflow-hidden bg-slate-100">
+                        <img 
+                            src="https://images.unsplash.com/photo-1595974482597-4b8da8879bc5?auto=format&fit=crop&w=600&q=80" 
+                            alt="Mahmud aka" 
+                            class="h-full w-full object-cover"
+                        >
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-base font-bold text-slate-900">Mahmud Yo‘ldoshev</h3>
+                        <p class="text-xs text-emerald-700 font-semibold mt-0.5">Toshkent viloyati, Parkent</p>
+                        <p class="mt-2 text-xs text-slate-500">Heirloom pomidorlari va tog‘ ko‘katlari yetishtirish bo‘yicha 25 yillik tajribaga ega.</p>
+                    </div>
+                </div>
+
+                <!-- 2-fermer -->
+                <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm text-center">
+                    <div class="aspect-[4/3] w-full overflow-hidden bg-slate-100">
+                        <img 
+                            src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=600&q=80" 
+                            alt="Dilfuza opa" 
+                            class="h-full w-full object-cover"
+                        >
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-base font-bold text-slate-900">Dilfuza Karimova</h3>
+                        <p class="text-xs text-emerald-700 font-semibold mt-0.5">Samarqand viloyati, Zarafshon</p>
+                        <p class="mt-2 text-xs text-slate-500">Tabiiy yaylovda boqilgan sigir suti va an’anaviy artisan pishloqlar ustasi.</p>
+                    </div>
+                </div>
+
+                <!-- 3-fermer -->
+                <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm text-center">
+                    <div class="aspect-[4/3] w-full overflow-hidden bg-slate-100">
+                        <img 
+                            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80" 
+                            alt="Anvar aka" 
+                            class="h-full w-full object-cover"
+                        >
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-base font-bold text-slate-900">Anvar Rustamov</h3>
+                        <p class="text-xs text-emerald-700 font-semibold mt-0.5">Farg‘ona vodiysi, Quva</p>
+                        <p class="mt-2 text-xs text-slate-500">Qadimiy navdagi shirin anorlar va tosh maydalangan unli nonlar yetkazib beruvchi.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Yakuniy harakatga chorlov (CTA) -->
+    <section class="bg-emerald-900 py-12 text-white">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-2xl font-bold sm:text-3xl">Haqiqiy toza ta’mni his qilishga tayyormisiz?</h2>
+            <p class="mt-2 text-xs sm:text-sm text-emerald-100 max-w-md mx-auto">
+                Bugun birinchi buyurtmangizni bering va organik sifat farqini o‘zingiz ko‘ring.
+            </p>
+            <div class="mt-6">
+                <a 
+                    href="{% url 'product_list' %}" 
+                    class="inline-flex items-center rounded-xl bg-white px-6 py-3 text-xs font-bold text-emerald-950 shadow-lg hover:bg-emerald-50 transition"
+                >
+                    Katalogga o‘tish
+                </a>
+            </div>
+        </div>
+    </section>
+
+</div>
+{% endblock %}

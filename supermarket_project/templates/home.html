@@ -1,0 +1,287 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Verdant Market | Fresh Local Groceries & Organic Produce{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative overflow-hidden bg-gradient-to-b from-emerald-50/70 to-white py-12 md:py-20 border-b border-emerald-100/60">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
+            
+            <div class="flex flex-col items-start lg:col-span-7">
+                <div class="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-wide text-emerald-800 shadow-sm">
+                    <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+                    Morning Harvest Active
+                </div>
+                
+                <h1 class="mt-6 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
+                    Real food, sourced directly from <span class="text-emerald-700 underline decoration-emerald-300 decoration-wavy decoration-2">small-scale growers</span>.
+                </h1>
+                
+                <p class="mt-5 text-base text-slate-600 sm:text-lg leading-relaxed max-w-2xl">
+                    Skip conventional distribution hubs. We deliver pristine heirloom greens, pasture-raised eggs, unpasteurized fermented pantry goods, and stone-milled sourdough direct to your doorstep within 24 hours of harvest.
+                </p>
+
+                <div class="mt-8 flex flex-wrap items-center gap-4">
+                    <a href="{% url 'product_list' %}" class="inline-flex items-center justify-center rounded-xl bg-emerald-700 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-emerald-800/20 transition hover:bg-emerald-800 hover:shadow-none focus:outline-none focus:ring-2 focus:ring-emerald-700 focus:ring-offset-2">
+                        Shop Seasonal Aisles
+                    </a>
+                    <a href="{% url 'about' %}" class="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-7 py-3.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-700 focus:ring-offset-2">
+                        Meet Our Farms
+                    </a>
+                </div>
+
+                <!-- Trust Metrics -->
+                <div class="mt-10 grid grid-cols-3 gap-6 border-t border-slate-200/80 pt-6">
+                    <div>
+                        <div class="text-xl font-bold text-slate-900">100%</div>
+                        <div class="text-xs text-slate-500">Certified Organic Soil</div>
+                    </div>
+                    <div>
+                        <div class="text-xl font-bold text-slate-900">&lt; 24h</div>
+                        <div class="text-xs text-slate-500">Field-To-Doorstep Time</div>
+                    </div>
+                    <div>
+                        <div class="text-xl font-bold text-slate-900">0</div>
+                        <div class="text-xs text-slate-500">Synthetic Additives</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Image Banner -->
+            <div class="relative lg:col-span-5">
+                <div class="aspect-square w-full overflow-hidden rounded-3xl bg-emerald-100 shadow-2xl ring-1 ring-emerald-950/5">
+                    <img 
+                        src="https://images.unsplash.com/photo-1610348725531-843dff563e2c?auto=format&fit=crop&w=1000&q=80" 
+                        alt="Fresh organic vegetables basket" 
+                        class="h-full w-full object-cover object-center"
+                    >
+                </div>
+                <!-- Float Card -->
+                <div class="absolute -bottom-6 -left-6 rounded-2xl bg-white p-4 shadow-xl border border-emerald-50 flex items-center gap-4 hidden sm:flex">
+                    <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Quality Verified</div>
+                        <div class="text-sm font-bold text-slate-800">Peak Sugar-Brix Certified</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Category Browser Grid -->
+<section class="py-16 bg-white">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex items-end justify-between">
+            <div>
+                <h2 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">Explore Organic Aisles</h2>
+                <p class="mt-2 text-sm text-slate-500">Categorized by direct agricultural source</p>
+            </div>
+            <a href="{% url 'product_list' %}" class="hidden sm:inline-flex text-sm font-semibold text-emerald-700 hover:text-emerald-800">
+                View all aisles &rarr;
+            </a>
+        </div>
+
+        <div class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+           {% for cat in featured_categories %} 
+                <a href="{% url 'product_list' %}?category={{ cat.slug|default:'produce' }}" class="group flex flex-col items-center rounded-2xl border border-slate-100 bg-slate-50/50 p-4 transition-all hover:border-emerald-200 hover:bg-emerald-50/40 hover:shadow-md">
+                    <div class="aspect-square w-20 overflow-hidden rounded-full bg-white p-2 shadow-sm transition group-hover:scale-105">
+                        <img 
+                            src="{{ cat.image_url|default:'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=200&q=80' }}" 
+                            alt="{{ cat.name|default:'Organic Greens' }}" 
+                            class="h-full w-full rounded-full object-cover"
+                        >
+                    </div>
+                    <span class="mt-3 text-center text-xs sm:text-sm font-semibold text-slate-800 group-hover:text-emerald-900">
+                        {{ cat.name|default:"Organic Produce" }}
+                    </span>
+                    <span class="text-[11px] text-slate-400">{{ cat.item_count|default:"24" }} items</span>
+                </a>
+            {% empty %}
+                <!-- Fallback Mock Cards if context array is empty -->
+                <div class="col-span-full py-8 text-center text-sm text-slate-500">No categories currently configured.</div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Deal of the Day Banner -->
+<section class="py-8">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="relative overflow-hidden rounded-3xl bg-emerald-900 px-6 py-10 shadow-xl sm:px-12 sm:py-14 text-white">
+            <div class="relative z-10 max-w-xl">
+                <span class="inline-block rounded-md bg-emerald-800 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-emerald-200">
+                    Flash Farm Deal
+                </span>
+                <h3 class="mt-3 text-3xl font-extrabold sm:text-4xl leading-tight">
+                    Heirloom Romanesco & Broccoli Box
+                </h3>
+                <p class="mt-3 text-sm text-emerald-100 leading-relaxed">
+                    Harvested at 5 AM this morning from High-Ridge Valley. Crisp, nut-like profile, completely pesticide-free. Available until current batch sells out.
+                </p>
+                <div class="mt-6 flex items-baseline gap-3">
+                    <span class="text-3xl font-extrabold">$14.50</span>
+                    <span class="text-base font-medium text-emerald-300 line-through">$22.00</span>
+                    <span class="rounded bg-emerald-700 px-2 py-0.5 text-xs font-semibold text-emerald-100">Save 34%</span>
+                </div>
+                <div class="mt-6">
+                    <button 
+                        type="button" 
+                        onclick="addToCart(999, 1)" 
+                        class="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-bold text-emerald-950 transition hover:bg-emerald-50 focus:outline-none focus:ring-2 focus:ring-white"
+                    >
+                        Claim Bundle Deal
+                    </button>
+                </div>
+            </div>
+            <!-- Decorative Visual Elements -->
+            <div class="pointer-events-none absolute -bottom-12 -right-12 h-96 w-96 rounded-full bg-emerald-800/40 blur-2xl"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Trending Harvests (Product Cards Grid) -->
+<section class="py-16 bg-slate-50/60">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <h2 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">Trending Fresh Arrivals</h2>
+                <p class="mt-1 text-sm text-slate-500">Arrived at our depot within the last 12 hours</p>
+            </div>
+            <a href="{% url 'product_list' %}" class="text-sm font-semibold text-emerald-700 hover:text-emerald-800">
+                Explore full inventory &rarr;
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {% for product in trending_products %}
+                <!-- Unified Dynamic Product Card -->
+                <div class="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm transition hover:border-emerald-300 hover:shadow-lg">
+                    <!-- Wishlist Interaction Button -->
+                    <button 
+    type="button" 
+    data-product-id="{{ product.id }}"
+    class="wishlist-btn absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-slate-400 shadow-sm backdrop-blur-sm transition hover:text-rose-500 hover:scale-110" 
+    aria-label="Add to wishlist"
+>
+    <svg class="h-5 w-5 {% if product.is_favorited %}fill-current text-rose-500{% endif %}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+    </svg>
+</button>
+
+
+
+
+
+                    <!-- Product Image -->
+                    <a href="{% url 'product_detail' product.slug %}" class="relative aspect-square w-full overflow-hidden bg-slate-100">
+                        <img 
+                            src="{{ product.image.url|default:'https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=600&q=80' }}" 
+                            alt="{{ product.name }}" 
+                            class="h-full w-full object-cover object-center transition duration-500 group-hover:scale-105"
+                        >
+                        {% if product.badge %}
+                            <span class="absolute left-3 top-3 rounded-md bg-emerald-800 px-2 py-0.5 text-[11px] font-bold text-white uppercase tracking-wider">
+                                {{ product.badge }}
+                            </span>
+                        {% endif %}
+                    </a>
+
+                    <!-- Product Details Body -->
+                    <div class="flex flex-1 flex-col p-4">
+                        <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                            {{ product.category.name|default:"Farm Fresh" }}
+                        </span>
+                        
+                        <h3 class="mt-1 text-base font-bold text-slate-900 group-hover:text-emerald-700 transition">
+                            <a href="{% url 'product_detail' product.slug %}">
+                                <span aria-hidden="true" class="absolute inset-0"></span>
+                                {{ product.name }}
+                            </a>
+                        </h3>
+                        
+                        <p class="mt-1 text-xs text-slate-500 line-clamp-2">
+                            {{ product.short_description|default:"Harvested at peak ripeness, handled without wax or chemical rinses." }}
+                        </p>
+
+                        <div class="mt-auto pt-4 flex items-center justify-between">
+                            <div class="flex flex-col">
+                                <span class="text-lg font-extrabold text-slate-900">${{ product.price }}</span>
+                                {% if product.unit %}
+                                    <span class="text-[11px] text-slate-400">per {{ product.unit }}</span>
+                                {% endif %}
+                            </div>
+
+                           <button 
+    type="button" 
+    data-product-id="{{ product.id }}"
+    class="add-to-cart-btn relative z-10 flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-800 transition hover:bg-emerald-700 hover:text-white"
+    title="Add to Basket"
+>
+    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+    </svg>
+</button>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-span-full rounded-xl border border-dashed border-slate-300 p-8 text-center text-slate-500">
+                    No trending products currently available. Check back tomorrow morning!
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Values & Assurance Banner -->
+<section class="border-t border-slate-200 bg-white py-14">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+            <div class="flex items-start gap-4">
+                <div class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <div>
+                    <h4 class="text-base font-bold text-slate-900">Cold-Chain Route Speed</h4>
+                    <p class="mt-1 text-sm text-slate-500">All perishables stay below 4°C during fulfillment to guarantee field-fresh crispness.</p>
+                </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+                <div class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                </div>
+                <div>
+                    <h4 class="text-base font-bold text-slate-900">100% Regenerative Focus</h4>
+                    <p class="mt-1 text-sm text-slate-500">Every grower is audited annually for active biodiversity enrichment and organic methods.</p>
+                </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+                <div class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                </div>
+                <div>
+                    <h4 class="text-base font-bold text-slate-900">Return & Refresh Guarantee</h4>
+                    <p class="mt-1 text-sm text-slate-500">If any item does not meet your crispness standards, we refund it immediately with one click.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
